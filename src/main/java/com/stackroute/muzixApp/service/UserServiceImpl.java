@@ -1,9 +1,11 @@
 package com.stackroute.muzixApp.service;
 
 import com.stackroute.muzixApp.domain.User;
+import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
 import com.stackroute.muzixApp.exceptions.UserAradyExistsException;
 import com.stackroute.muzixApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import javax.sound.midi.Track;
@@ -20,15 +22,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User saveTrack(User user) throws UserAradyExistsException {
-        if (userRepository.existsById(user.getTrackID())) {
-          throw new UserAradyExistsException("User already exists");
-        }
-        User savedUser=userRepository.save(user);
-        if(savedUser==null){
-            throw new UserAradyExistsException("User null");
-        }
-        return  savedUser;
+    public User saveTrack(User user) {
+        User track=userRepository.save(user);
+        return  track;
     }
 
     @Override
@@ -46,13 +42,15 @@ public class UserServiceImpl implements UserService{
     public User updateTrack(User user) {
         User updateTrack=userRepository.save(user);
         return updateTrack;
-
     }
 
+    @Override
+    public void deleteByID(User track)  {
+        userRepository.deleteById(track.getTrackID());
+    }
 
     @Override
-    public void deleteByID(User track) {
-        userRepository.deleteById(track.getTrackID());
-
+    public List<User> findTrackByName(String trackName)  {
+        return userRepository.getByName(trackName);
     }
 }

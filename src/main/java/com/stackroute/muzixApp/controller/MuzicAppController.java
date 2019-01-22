@@ -2,6 +2,7 @@ package com.stackroute.muzixApp.controller;
 
 import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.stackroute.muzixApp.domain.User;
+import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
 import com.stackroute.muzixApp.exceptions.UserAradyExistsException;
 import com.stackroute.muzixApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,13 @@ public class MuzicAppController {
     @PostMapping("track")
     public ResponseEntity<?> saveTrack(@RequestBody User track) {
         ResponseEntity responseEntity;
-        try {
+//        try {
             userService.saveTrack(track);
-            responseEntity = new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
-        } catch (Exception ex) {
-            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-        }
+            responseEntity = new ResponseEntity("Successfully created", HttpStatus.CREATED);
+//        } catch (UserAradyExistsException ex) {
+//            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
+//            ex.printStackTrace();
+//        }
         return responseEntity;
     }
 
@@ -44,16 +46,16 @@ public class MuzicAppController {
     @DeleteMapping("track/{trackId}")
     public ResponseEntity<?> removeTrack(@PathVariable int trackId) {
         ResponseEntity responseEntity;
-        User track1 = userService.getTrackByID(trackId);
-        userService.deleteByID(track1);
-        responseEntity = new ResponseEntity<String>("Track removed", HttpStatus.OK);
+            User track1 = userService.getTrackByID(trackId);
+            userService.deleteByID(track1);
+            responseEntity = new ResponseEntity<String>("Track removed", HttpStatus.OK);
+
         return responseEntity;
     }
 
     @GetMapping("track/{trackId}")
-    public ResponseEntity<?> getTrackById(@PathVariable int trackId) {
-        User track = userService.getTrackByID(trackId);
-        return new ResponseEntity<User>(track, HttpStatus.OK);
+    public ResponseEntity<?> getTrackById(@PathVariable int trackId)  {
+        return new ResponseEntity<User>(userService.getTrackByID(trackId), HttpStatus.OK);
     }
 
     @PutMapping("track")
