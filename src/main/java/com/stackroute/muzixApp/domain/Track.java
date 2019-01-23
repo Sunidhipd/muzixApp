@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class User {
+public class Track {
     @Id
     private int trackID;
     private String trackName;

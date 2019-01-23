@@ -1,6 +1,6 @@
 package com.stackroute.muzixApp.controller;
 
-import com.stackroute.muzixApp.domain.User;
+import com.stackroute.muzixApp.domain.Track;
 import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
 import com.stackroute.muzixApp.exceptions.UserAlreadyExistsException;
 import com.stackroute.muzixApp.service.UserService;
@@ -23,7 +23,7 @@ public class MuzicAppController {
     }
 
     @PostMapping("track")
-    public ResponseEntity<?> saveTrack(@RequestBody User track) throws UserAlreadyExistsException {
+    public ResponseEntity<?> saveTrack(@RequestBody Track track) throws UserAlreadyExistsException {
         ResponseEntity responseEntity;
 
 //        try {
@@ -38,13 +38,13 @@ public class MuzicAppController {
 
     @GetMapping("tracks")
     public ResponseEntity<?> getAllTracks() {
-        return new ResponseEntity<List<User>>(userService.getAllTracks(), HttpStatus.OK);
+        return new ResponseEntity<List<Track>>(userService.getAllTracks(), HttpStatus.OK);
     }
 
     @DeleteMapping("track/{trackId}")
     public ResponseEntity<?> removeTrack(@PathVariable int trackId) throws TrackNotFoundException {
         ResponseEntity responseEntity;
-            User track1 = userService.getTrackByID(trackId);
+            Track track1 = userService.getTrackByID(trackId);
             userService.deleteByID(track1);
             responseEntity = new ResponseEntity<String>("Track removed", HttpStatus.OK);
 
@@ -54,11 +54,11 @@ public class MuzicAppController {
    //This method is used to
     @GetMapping("track/{trackId}")
     public ResponseEntity<?> getTrackById(@PathVariable int trackId) throws TrackNotFoundException {
-        return new ResponseEntity<User>(userService.getTrackByID(trackId), HttpStatus.OK);
+        return new ResponseEntity<Track>(userService.getTrackByID(trackId), HttpStatus.OK);
     }
 
     @PutMapping("track")
-    public ResponseEntity<?> updateComment(@RequestBody User track){
-        return new ResponseEntity<User>(userService.updateTrack(track),HttpStatus.OK);
+    public ResponseEntity<?> updateComment(@RequestBody Track track){
+        return new ResponseEntity<Track>(userService.updateTrack(track),HttpStatus.OK);
     }
 }
