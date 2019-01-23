@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("Select t from User t where t.trackName=?1")
-    public List<User> getByName(String track);
+    public User getByName(String track);
 }

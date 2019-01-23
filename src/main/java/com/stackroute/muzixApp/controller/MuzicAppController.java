@@ -1,9 +1,7 @@
 package com.stackroute.muzixApp.controller;
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.stackroute.muzixApp.domain.User;
-import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
-import com.stackroute.muzixApp.exceptions.UserAradyExistsException;
+import com.stackroute.muzixApp.exceptions.UserAlreadyExistsException;
 import com.stackroute.muzixApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.sound.midi.Track;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "api/v1")
@@ -26,40 +23,76 @@ public class MuzicAppController {
     }
 
     @PostMapping("track")
-    public ResponseEntity<?> saveTrack(@RequestBody User track) {
+    public ResponseEntity<?> saveTrack(@RequestBody User track) throws UserAlreadyExistsException {
         ResponseEntity responseEntity;
-//        try {
+        try {
             userService.saveTrack(track);
-            responseEntity = new ResponseEntity("Successfully created", HttpStatus.CREATED);
-//        } catch (UserAradyExistsException ex) {
-//            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-//            ex.printStackTrace();
-//        }
+            responseEntity = new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
+        } catch (UserAlreadyExistsException ex) {
+            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
+        }
         return responseEntity;
     }
 
     @GetMapping("tracks")
     public ResponseEntity<?> getAllTracks() {
-        return new ResponseEntity<List<User>>(userService.getAllTracks(), HttpStatus.OK);
-    }
+        ResponseEntity responseEntity;
+        try {
+            responseEntity= new ResponseEntity<List<User>>(userService.getAllTracks(), HttpStatus.OK);
+        }catch (Exception e){
+            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
+        return responseEntity;
+        }
 
     @DeleteMapping("track/{trackId}")
     public ResponseEntity<?> removeTrack(@PathVariable int trackId) {
         ResponseEntity responseEntity;
+        try {
             User track1 = userService.getTrackByID(trackId);
             userService.deleteByID(track1);
             responseEntity = new ResponseEntity<String>("Track removed", HttpStatus.OK);
+        }catch (Exception e){
+            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
 
         return responseEntity;
     }
 
     @GetMapping("track/{trackId}")
-    public ResponseEntity<?> getTrackById(@PathVariable int trackId)  {
-        return new ResponseEntity<User>(userService.getTrackByID(trackId), HttpStatus.OK);
+    public ResponseEntity<?> getTrackById(@PathVariable int trackId) {
+        ResponseEntity responseEntity;
+        try {
+            return new ResponseEntity<User>(userService.getTrackByID(trackId), HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
+        return responseEntity;
     }
 
     @PutMapping("track")
     public ResponseEntity<?> updateComment(@RequestBody User track){
-        return new ResponseEntity<User>(userService.updateTrack(track),HttpStatus.OK);
+        ResponseEntity responseEntity;
+        try {
+            userService.updateTrack(track);
+            responseEntity = new ResponseEntity<String>("Success Updation", HttpStatus.CREATED);
+        }catch (Exception ex){
+            responseEntity=new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
+        }
+        return responseEntity;
     }
+    @GetMapping(value = "/trackName/{getName}")
+    public ResponseEntity<Track> getByTrackName(@PathVariable String getName)
+    {
+        ResponseEntity responseEntity;
+        try {
+            responseEntity = new ResponseEntity<User>(userService.findTrackByName(getName),HttpStatus.OK);
+        }
+        catch (Exception ex)
+        {
+            responseEntity = new ResponseEntity<String>(ex.getMessage(),HttpStatus.CONFLICT);
+        }
+        return responseEntity;
+    }
+
 }
