@@ -1,18 +1,15 @@
 package com.stackroute.muzixApp.controller;
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.stackroute.muzixApp.domain.User;
 import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
-import com.stackroute.muzixApp.exceptions.UserAradyExistsException;
+import com.stackroute.muzixApp.exceptions.UserAlreadyExistsException;
 import com.stackroute.muzixApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sound.midi.Track;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "api/v1")
@@ -26,12 +23,13 @@ public class MuzicAppController {
     }
 
     @PostMapping("track")
-    public ResponseEntity<?> saveTrack(@RequestBody User track) {
+    public ResponseEntity<?> saveTrack(@RequestBody User track) throws UserAlreadyExistsException {
         ResponseEntity responseEntity;
+
 //        try {
             userService.saveTrack(track);
             responseEntity = new ResponseEntity("Successfully created", HttpStatus.CREATED);
-//        } catch (UserAradyExistsException ex) {
+//        } catch (UserAlreadyExistsException ex) {
 //            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
 //            ex.printStackTrace();
 //        }
@@ -44,7 +42,7 @@ public class MuzicAppController {
     }
 
     @DeleteMapping("track/{trackId}")
-    public ResponseEntity<?> removeTrack(@PathVariable int trackId) {
+    public ResponseEntity<?> removeTrack(@PathVariable int trackId) throws TrackNotFoundException {
         ResponseEntity responseEntity;
             User track1 = userService.getTrackByID(trackId);
             userService.deleteByID(track1);
@@ -53,8 +51,9 @@ public class MuzicAppController {
         return responseEntity;
     }
 
+   //This method is used to
     @GetMapping("track/{trackId}")
-    public ResponseEntity<?> getTrackById(@PathVariable int trackId)  {
+    public ResponseEntity<?> getTrackById(@PathVariable int trackId) throws TrackNotFoundException {
         return new ResponseEntity<User>(userService.getTrackByID(trackId), HttpStatus.OK);
     }
 
