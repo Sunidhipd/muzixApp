@@ -1,16 +1,12 @@
 package com.stackroute.muzixApp.service;
 
 import com.stackroute.muzixApp.domain.User;
-import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
-import com.stackroute.muzixApp.exceptions.UserAradyExistsException;
 import com.stackroute.muzixApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import javax.sound.midi.Track;
 import java.util.List;
-import java.util.Optional;
+//Implementation class for UserService interface
 
 @Service
 public class UserServiceImpl implements UserService{

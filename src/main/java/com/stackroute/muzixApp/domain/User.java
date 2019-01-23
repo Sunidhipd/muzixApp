@@ -14,6 +14,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 
 public class User {
+    //@Id IS FOR PRIMARY KEY DECLARATION AND FOLLOWING 3 ARE THE FIELDS FOR DOMAIN USER TRACK
     @Id
     private int trackID;
     private String trackName;

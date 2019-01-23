@@ -1,10 +1,10 @@
 package com.stackroute.muzixApp.exceptions;
 
-public class UserAradyExistsException extends Exception {
+public class UserAlreadyExistsException extends Exception {
 
     private String message;
 
-    public UserAradyExistsException(String message){
+    public UserAlreadyExistsException(String message){
         super(message);
         this.message=message;
     }

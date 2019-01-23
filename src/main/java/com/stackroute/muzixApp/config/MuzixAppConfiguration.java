@@ -34,7 +34,7 @@ public class MuzixAppConfiguration extends WebMvcConfigurationSupport {
 //        return registrationBean;
 //    }
 
-
+    //THIS DOCKET IS FOR SWAGGER FOLLOWING METADATA AND RESOURCE HANDLERS
     @Bean
     public Docket mainConfig(){
         return new Docket(DocumentationType.SWAGGER_2)

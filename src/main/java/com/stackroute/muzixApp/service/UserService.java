@@ -1,13 +1,12 @@
 package com.stackroute.muzixApp.service;
 
 import com.stackroute.muzixApp.domain.User;
-import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
-import com.stackroute.muzixApp.exceptions.UserAradyExistsException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
+
+    //The functionalies we want the UserService to have are made as method here below
     User saveTrack(User user) ;
     List<User> getAllTracks();
     User getTrackByID(int trackId) ;
