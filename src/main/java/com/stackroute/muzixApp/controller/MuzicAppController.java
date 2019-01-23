@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/v1")
 public class MuzicAppController {
-    UserService userService;
+    private UserService userService;
 
 
     //CONSTRUCTOR AUTOWIRING FOR DEPENDENCY INJECTION
