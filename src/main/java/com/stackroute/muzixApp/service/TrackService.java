@@ -1,13 +1,13 @@
 package com.stackroute.muzixApp.service;
 
 import com.stackroute.muzixApp.domain.Track;
+import com.stackroute.muzixApp.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzixApp.exceptions.TrackNotFoundException;
-import com.stackroute.muzixApp.exceptions.UserAlreadyExistsException;
 
 import java.util.List;
 
-public interface UserService {
-    public Track saveTrack(Track track) throws UserAlreadyExistsException;
+public interface TrackService {
+    public Track saveTrack(Track track) throws TrackAlreadyExistsException;
     public List<Track> getAllTracks();
     public Track getTrackByID(int trackId) throws TrackNotFoundException;
     public Track updateTrack(Track track);

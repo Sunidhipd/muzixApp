@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<Track,Integer> {
+public interface TrackRepository extends JpaRepository<Track,Integer> {
     @Query("Select t from Track t where t.trackName=?1")
     public List<Track> getByName(String track);
 }

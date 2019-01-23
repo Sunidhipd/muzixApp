@@ -1,7 +1,7 @@
 package com.stackroute.muzixApp;
 
 import com.stackroute.muzixApp.domain.Track;
-import com.stackroute.muzixApp.repository.UserRepository;
+import com.stackroute.muzixApp.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -32,7 +32,7 @@ public class MuzixAppApplication implements ApplicationListener<ContextRefreshed
 
 
 	@Autowired
-	private UserRepository trackRepository;
+	private TrackRepository trackRepository;
 	@Autowired
 	private Environment env;
 
